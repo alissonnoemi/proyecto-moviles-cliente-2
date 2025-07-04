@@ -1,4 +1,4 @@
-import { Text, View, TouchableOpacity, Animated, Dimensions, ImageBackground } from 'react-native'
+import { Text, View, TouchableOpacity, Animated, Dimensions, ImageBackground, Image } from 'react-native'
 import React, { useEffect, useRef } from 'react'
 import { useNavigation } from '@react-navigation/native'
 import { LinearGradient } from 'expo-linear-gradient'
@@ -168,27 +168,13 @@ export default function WelcomeScreen() {
                             }
                         ]}
                     >
-                        <View style={styles.logoBackground}>
-                            <View style={styles.logoContent}>
-                                <View style={styles.rocketWrapper}>
-                                    <Ionicons name="rocket" size={50} color="#FFFFFF" />
-                                </View>
-                                <View style={styles.chartWrapper}>
-                                    <View style={styles.chartLine}>
-                                        <View style={styles.chartPoint1} />
-                                        <View style={styles.chartPoint2} />
-                                        <View style={styles.chartPoint3} />
-                                    </View>
-                                    <Ionicons name="trending-up" size={32} color="#FFFFFF" style={styles.arrowIcon} />
-                                </View>
-                            </View>
+                        <View style={styles.logoContainer}>
+                            <Image 
+                                source={require('../images/icono.jpeg')} 
+                                style={styles.logoImage}
+                                resizeMode="contain"
+                            />
                         </View>
-                        <Animated.View
-                            style={[
-                                styles.logoRing,
-                                { transform: [{ rotate: spin }] }
-                            ]}
-                        />
                     </Animated.View>
                     <Animated.View
                         style={[

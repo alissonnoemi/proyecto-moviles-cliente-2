@@ -72,6 +72,10 @@ export const welcomeStyles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
     },
+    logoImage: {
+        width: 120,
+        height: 120,
+    },
     rocketWrapper: {
         position: 'absolute',
         top: 0,
