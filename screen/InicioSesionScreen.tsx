@@ -42,7 +42,7 @@ export default function InicioSesionScreen() {
 
         // Validar credenciales
         if (email === validCredentials.email && password === validCredentials.password) {
-            // Autenticación exitosa
+            //autenticacion
             const userData = {
                 id: 1,
                 name: 'Admin StartUps',
@@ -54,7 +54,7 @@ export default function InicioSesionScreen() {
             console.log('Login exitoso:', userData);
             navigation.navigate('Main');
         } else {
-            // Credenciales incorrectas
+            //incorrecto
             alert('❌ Credenciales incorrectas\n\nPor favor, verifica tu email y contraseña.');
         }
     };
@@ -74,7 +74,7 @@ export default function InicioSesionScreen() {
                 <View style={styles.overlay} />
 
                 <ScrollView contentContainerStyle={styles.scrollContainer}>
-                    {/* Header */}
+
                     <Animated.View
                         style={[
                             styles.header,
@@ -94,7 +94,6 @@ export default function InicioSesionScreen() {
                         <View style={styles.placeholder} />
                     </Animated.View>
 
-                    {/* Logo/Title */}
                     <Animated.View
                         style={[
                             styles.logoContainer,
@@ -114,7 +113,6 @@ export default function InicioSesionScreen() {
                         <Text style={styles.subtitle}>Bienvenido de vuelta</Text>
                     </Animated.View>
 
-                    {/* Form */}
                     <Animated.View
                         style={[
                             styles.formContainer,
@@ -124,7 +122,6 @@ export default function InicioSesionScreen() {
                             }
                         ]}
                     >
-                        {/* Email Input */}
                         <View style={styles.inputContainer}>
                             <Ionicons name="mail-outline" size={20} color="#666" style={styles.inputIcon} />
                             <TextInput
@@ -134,11 +131,9 @@ export default function InicioSesionScreen() {
                                 value={email}
                                 onChangeText={setEmail}
                                 keyboardType="email-address"
-                                autoCapitalize="none"
+                                
                             />
                         </View>
-
-                        {/* Password Input */}
                         <View style={styles.inputContainer}>
                             <Ionicons name="lock-closed-outline" size={20} color="#666" style={styles.inputIcon} />
                             <TextInput
@@ -161,12 +156,10 @@ export default function InicioSesionScreen() {
                             </TouchableOpacity>
                         </View>
 
-                        {/* Forgot Password */}
                         <TouchableOpacity style={styles.forgotPassword}>
                             <Text style={styles.forgotPasswordText}>¿Olvidaste tu contraseña?</Text>
                         </TouchableOpacity>
 
-                        {/* Login Button */}
                         <TouchableOpacity
                             style={styles.loginButton}
                             onPress={handleLogin}
@@ -195,7 +188,6 @@ export default function InicioSesionScreen() {
                             </TouchableOpacity>
                         </View>
 
-                        {/* Register Link */}
                         <View style={styles.registerContainer}>
                             <Text style={styles.registerText}>¿No tienes cuenta? </Text>
                             <TouchableOpacity onPress={() => navigation.navigate('Register')}>

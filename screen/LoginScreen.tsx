@@ -48,10 +48,8 @@ export default function LoginScreen() {
                 style={styles.backgroundImage}
                 resizeMode="cover"
             >
-                {/* Overlay oscuro para mejor legibilidad */}
                 <View style={styles.overlay} />
 
-                {/* Título animado */}
                 <Animated.View
                     style={[
                         styles.titleContainer,
@@ -68,7 +66,6 @@ export default function LoginScreen() {
                     <Text style={styles.subtitle}>Tu futuro comienza aquí</Text>
                 </Animated.View>
 
-                {/* Botones en la parte inferior */}
                 <Animated.View
                     style={[
                         styles.buttonContainer,

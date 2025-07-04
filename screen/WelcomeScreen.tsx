@@ -9,7 +9,6 @@ const { width, height } = Dimensions.get('window');
 export default function WelcomeScreen() {
     const navigation = useNavigation<any>();
 
-    // Animaciones
     const fadeAnim = useRef(new Animated.Value(0)).current;
     const slideAnim = useRef(new Animated.Value(50)).current;
     const scaleAnim = useRef(new Animated.Value(0.8)).current;
@@ -18,7 +17,6 @@ export default function WelcomeScreen() {
     const floatAnim = useRef(new Animated.Value(0)).current;
 
     useEffect(() => {
-        // Animación de entrada
         Animated.sequence([
             Animated.parallel([
                 Animated.timing(fadeAnim, {
@@ -44,7 +42,6 @@ export default function WelcomeScreen() {
             }),
         ]).start();
 
-        // Animación de pulso continua
         const pulseAnimation = Animated.loop(
             Animated.sequence([
                 Animated.timing(pulseAnim, {
@@ -61,7 +58,6 @@ export default function WelcomeScreen() {
         );
         pulseAnimation.start();
 
-        // Animación flotante
         const floatAnimation = Animated.loop(
             Animated.sequence([
                 Animated.timing(floatAnim, {
@@ -110,7 +106,6 @@ export default function WelcomeScreen() {
                     end={{ x: 1, y: 1 }}
                 />
 
-                {/* Elementos decorativos flotantes */}
                 <View style={styles.floatingElements}>
                     <Animated.View
                         style={[
@@ -159,9 +154,7 @@ export default function WelcomeScreen() {
                     </Animated.View>
                 </View>
 
-                {/* Contenido principal */}
                 <View style={styles.content}>
-                    {/* Logo/Icono principal - Cohete con gráfico */}
                     <Animated.View
                         style={[
                             styles.logoContainer,
@@ -175,13 +168,10 @@ export default function WelcomeScreen() {
                         ]}
                     >
                         <View style={styles.logoBackground}>
-                            {/* Recreando tu logo exacto: cohete + flecha de crecimiento */}
                             <View style={styles.logoContent}>
-                                {/* Cohete principal */}
                                 <View style={styles.rocketWrapper}>
                                     <Ionicons name="rocket" size={50} color="#FFFFFF" />
                                 </View>
-                                {/* Flecha de crecimiento (gráfico) */}
                                 <View style={styles.chartWrapper}>
                                     <View style={styles.chartLine}>
                                         <View style={styles.chartPoint1} />
@@ -199,8 +189,6 @@ export default function WelcomeScreen() {
                             ]}
                         />
                     </Animated.View>
-
-                    {/* Título principal */}
                     <Animated.View
                         style={[
                             styles.titleContainer,
@@ -216,8 +204,6 @@ export default function WelcomeScreen() {
                             Encuentra los mejores emprendimientos, explora servicios únicos y conecta directamente con innovadores locales
                         </Text>
                     </Animated.View>
-
-                    {/* Características del servicio */}
                     <Animated.View
                         style={[
                             styles.featuresContainer,
@@ -240,8 +226,6 @@ export default function WelcomeScreen() {
                             <Text style={styles.featureText}>Adquirir</Text>
                         </View>
                     </Animated.View>
-
-                    {/* Estadísticas */}
                     <Animated.View
                         style={[
                             styles.statsContainer,
@@ -266,8 +250,6 @@ export default function WelcomeScreen() {
                             <Text style={styles.statLabel}>Disponible</Text>
                         </View>
                     </Animated.View>
-
-                    {/* Botón de acción */}
                     <Animated.View
                         style={[
                             styles.buttonContainer,
@@ -297,8 +279,6 @@ export default function WelcomeScreen() {
                         </TouchableOpacity>
                     </Animated.View>
                 </View>
-
-                {/* Indicadores en la parte inferior */}
                 <Animated.View
                     style={[
                         styles.bottomIndicators,

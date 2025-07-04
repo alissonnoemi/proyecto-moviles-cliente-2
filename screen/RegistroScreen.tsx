@@ -38,7 +38,7 @@ export default function RegistroScreen() {
     }, []);
 
     const handleRegister = () => {
-        // Datos de usuario por defecto para demo
+        //datos quemados para simular el registro
         const newUserData = {
             id: 2,
             name: fullName || 'Nuevo Usuario',
@@ -50,7 +50,7 @@ export default function RegistroScreen() {
         // Simular registro exitoso
         console.log('Usuario registrado:', newUserData);
 
-        // Navegar directamente a la aplicación principal
+        //navegar a la pantalla principal
         navigation.navigate('Main');
     };
 
@@ -69,7 +69,6 @@ export default function RegistroScreen() {
                 <View style={styles.overlay} />
 
                 <ScrollView contentContainerStyle={styles.scrollContainer}>
-                    {/* Header */}
                     <Animated.View
                         style={[
                             styles.header,
@@ -88,8 +87,6 @@ export default function RegistroScreen() {
                         <Text style={styles.headerTitle}>Registro</Text>
                         <View style={styles.placeholder} />
                     </Animated.View>
-
-                    {/* Logo/Title */}
                     <Animated.View
                         style={[
                             styles.logoContainer,
@@ -108,8 +105,6 @@ export default function RegistroScreen() {
                         <Text style={styles.title}>Únete a StartUps</Text>
                         <Text style={styles.subtitle}>Crea tu cuenta y comienza</Text>
                     </Animated.View>
-
-                    {/* Form */}
                     <Animated.View
                         style={[
                             styles.formContainer,
@@ -119,7 +114,6 @@ export default function RegistroScreen() {
                             }
                         ]}
                     >
-                        {/* Full Name Input */}
                         <View style={styles.inputContainer}>
                             <Ionicons name="person-outline" size={20} color="#666" style={styles.inputIcon} />
                             <TextInput
@@ -132,7 +126,6 @@ export default function RegistroScreen() {
                             />
                         </View>
 
-                        {/* Email Input */}
                         <View style={styles.inputContainer}>
                             <Ionicons name="mail-outline" size={20} color="#666" style={styles.inputIcon} />
                             <TextInput
@@ -146,7 +139,6 @@ export default function RegistroScreen() {
                             />
                         </View>
 
-                        {/* Password Input */}
                         <View style={styles.inputContainer}>
                             <Ionicons name="lock-closed-outline" size={20} color="#666" style={styles.inputIcon} />
                             <TextInput
@@ -168,8 +160,6 @@ export default function RegistroScreen() {
                                 />
                             </TouchableOpacity>
                         </View>
-
-                        {/* Confirm Password Input */}
                         <View style={styles.inputContainer}>
                             <Ionicons name="shield-checkmark-outline" size={20} color="#666" style={styles.inputIcon} />
                             <TextInput
@@ -191,41 +181,18 @@ export default function RegistroScreen() {
                                 />
                             </TouchableOpacity>
                         </View>
-
-                        {/* Terms and Conditions */}
                         <TouchableOpacity
-                            style={styles.termsContainer}
-                            onPress={() => setAcceptTerms(!acceptTerms)}
-                        >
-                            <View style={[styles.checkbox, acceptTerms && styles.checkboxChecked]}>
-                                {acceptTerms && <Ionicons name="checkmark" size={16} color="white" />}
-                            </View>
-                            <Text style={styles.termsText}>
-                                Acepto los{' '}
-                                <Text style={styles.termsLink}>términos y condiciones</Text>
-                                {' '}y la{' '}
-                                <Text style={styles.termsLink}>política de privacidad</Text>
-                            </Text>
-                        </TouchableOpacity>
-
-                        {/* Register Button */}
-                        <TouchableOpacity
-                            style={[styles.registerButton, !acceptTerms && styles.registerButtonDisabled]}
+                            style={[styles.registerButton, styles.registerButtonDisabled]}
                             onPress={handleRegister}
                             activeOpacity={0.8}
-                            disabled={!acceptTerms}
                         >
                             <Text style={styles.registerButtonText}>Crear Cuenta</Text>
                         </TouchableOpacity>
-
-                        {/* Divider */}
                         <View style={styles.dividerContainer}>
                             <View style={styles.divider} />
                             <Text style={styles.dividerText}>o regístrate con</Text>
                             <View style={styles.divider} />
                         </View>
-
-                        {/* Social Buttons */}
                         <View style={styles.socialContainer}>
                             <TouchableOpacity style={styles.socialButton}>
                                 <Ionicons name="logo-google" size={24} color="#4285F4" />
@@ -237,8 +204,6 @@ export default function RegistroScreen() {
                                 <Ionicons name="logo-facebook" size={24} color="#1877F2" />
                             </TouchableOpacity>
                         </View>
-
-                        {/* Login Link */}
                         <View style={styles.loginContainer}>
                             <Text style={styles.loginText}>¿Ya tienes cuenta? </Text>
                             <TouchableOpacity onPress={() => navigation.navigate('LoginForm')}>
