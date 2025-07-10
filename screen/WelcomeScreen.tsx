@@ -265,7 +265,7 @@ export default function WelcomeScreen() {
                     >
                         <TouchableOpacity
                             style={styles.button}
-                            onPress={() => navigation.navigate('Login')}
+                            onPress={() => navigation.navigate('Screen1')}
                             activeOpacity={0.8}
                         >
                             <LinearGradient

@@ -1,8 +1,9 @@
-import { Text, View, TextInput, TouchableOpacity, Animated, ImageBackground, KeyboardAvoidingView, Platform, ScrollView } from 'react-native'
+import { Text, View, TextInput, TouchableOpacity, Animated, ImageBackground, KeyboardAvoidingView, Platform, ScrollView, Alert } from 'react-native'
 import React, { useEffect, useRef, useState } from 'react'
 import { useNavigation } from '@react-navigation/native'
 import { Ionicons } from '@expo/vector-icons'
 import { inicioSesionStyles as styles } from '../styles/InicioSesionScreenStyles'
+import { supabase } from '../supabase/Config'
 
 export default function InicioSesionScreen() {
     const navigation = useNavigation<any>();
@@ -34,29 +35,16 @@ export default function InicioSesionScreen() {
         ]).start();
     }, []);
 
-    const handleLogin = () => {
-        // Credenciales de validación
-        const validCredentials = {
-            email: 'admin@startup.com',
-            password: '123456'
-        };
-
-        // Validar credenciales
-        if (email === validCredentials.email && password === validCredentials.password) {
-            //autenticacion
-            const userData = {
-                id: 1,
-                name: 'Admin StartUps',
-                email: email,
-                avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60',
-                role: 'cliente'
-            };
-
-            console.log('Login exitoso:', userData);
-            navigation.navigate('Main');
+    const handleLogin = async () => {
+        const { data, error } = await supabase.auth.signInWithPassword({
+            email: email,
+            password: password,
+        })
+        console.log(data, error)
+        if (data.user != null) {
+            navigation.navigate("Tabs")
         } else {
-            //incorrecto
-            alert('❌ Credenciales incorrectas\n\nPor favor, verifica tu email y contraseña.');
+            Alert.alert("Error", error?.message)
         }
     };
 
@@ -132,7 +120,7 @@ export default function InicioSesionScreen() {
                                 value={email}
                                 onChangeText={setEmail}
                                 keyboardType="email-address"
-                                
+                                autoCapitalize="none"
                             />
                         </View>
                         <View style={styles.inputContainer}>

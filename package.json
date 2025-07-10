@@ -9,20 +9,30 @@
     "web": "expo start --web"
   },
   "dependencies": {
-    "@react-navigation/bottom-tabs": "^7.4.2",
-    "@react-navigation/drawer": "^7.5.2",
-    "@react-navigation/native": "^7.5.0",
+    "@craftzdog/react-native-buffer": "^6.1.0",
+    "@react-navigation/bottom-tabs": "^6.6.1",
+    "@react-navigation/drawer": "^6.7.2",
+    "@react-navigation/native": "^6.1.6",
+    "@react-navigation/stack": "^6.4.1",
+    "@supabase/supabase-js": "^2.50.3",
     "expo": "~53.0.16",
+    "expo-crypto": "~14.1.5",
     "expo-linear-gradient": "~14.1.5",
     "expo-status-bar": "~2.2.3",
     "react": "19.0.0",
     "react-native": "0.79.5",
     "react-native-gesture-handler": "~2.24.0",
-    "react-native-reanimated": "~3.17.4"
+    "react-native-quick-crypto": "^0.7.15",
+    "react-native-reanimated": "~3.17.4",
+    "react-native-safe-area-context": "5.4.0",
+    "react-native-screens": "~4.11.1",
+    "react-native-url-polyfill": "^2.0.0",
+    "readable-stream": "^4.7.0"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",
     "@types/react": "~19.0.10",
+    "@types/react-native": "^0.72.8",
     "typescript": "~5.8.3"
   },
   "private": true

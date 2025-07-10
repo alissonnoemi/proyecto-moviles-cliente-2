@@ -1,8 +1,10 @@
-import { Text, View, TextInput, TouchableOpacity, Animated, ImageBackground, KeyboardAvoidingView, Platform, ScrollView } from 'react-native'
-import React, { useEffect, useRef, useState } from 'react'
+import { Text, View, TextInput, TouchableOpacity, ImageBackground, KeyboardAvoidingView, Platform, ScrollView, Alert } from 'react-native'
+import React, { useState } from 'react'
 import { useNavigation } from '@react-navigation/native'
 import { Ionicons } from '@expo/vector-icons'
 import { registroStyles as styles } from '../styles/RegistroScreenStyles'
+import { supabase } from '../supabase/Config'
+
 
 export default function RegistroScreen() {
     const navigation = useNavigation<any>();
@@ -10,50 +12,66 @@ export default function RegistroScreen() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
+    const [cedula, setCedula] = useState('');
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-    const [acceptTerms, setAcceptTerms] = useState(false);
 
-    const fadeAnim = useRef(new Animated.Value(0)).current;
-    const slideAnim = useRef(new Animated.Value(30)).current;
-    const scaleAnim = useRef(new Animated.Value(0.9)).current;
+    async function registro() {
+        // Validaciones
+        if (!fullName.trim()) {
+            Alert.alert('Error', 'Por favor ingresa tu nombre completo');
+            return;
+        }
 
-    useEffect(() => {
-        Animated.parallel([
-            Animated.timing(fadeAnim, {
-                toValue: 1,
-                duration: 1000,
-                useNativeDriver: true,
-            }),
-            Animated.timing(slideAnim, {
-                toValue: 0,
-                duration: 800,
-                useNativeDriver: true,
-            }),
-            Animated.timing(scaleAnim, {
-                toValue: 1,
-                duration: 800,
-                useNativeDriver: true,
-            }),
-        ]).start();
-    }, []);
+        else if (!email.trim()) {
+            Alert.alert('Error', 'Por favor ingresa tu correo electrónico');
+            return;
+        }
 
-    const handleRegister = () => {
-        //datos quemados para simular el registro
-        const newUserData = {
-            id: 2,
-            name: fullName || 'Nuevo Usuario',
-            email: email || 'nuevo@startup.com',
-            avatar: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60',
-            role: 'cliente'
-        };
+        else if (!cedula.trim()) {
+            Alert.alert('Error', 'Por favor ingresa tu cédula');
+            return;
+        }
 
-        // Simular registro exitoso
-        console.log('Usuario registrado:', newUserData);
+        else if (!password.trim()) {
+            Alert.alert('Error', 'Por favor ingresa una contraseña');
+            return;
+        }
 
-        //navegar a la pantalla principal
-        navigation.navigate('Main');
-    };
+        else if (password !== confirmPassword) {
+            Alert.alert('Error', 'Las contraseñas no coinciden');
+            return;
+        }
+
+        const { data, error } = await supabase.auth.signUp({
+            email: email,
+            password: password,
+        });
+
+        console.log(data.user?.id);
+        console.log(data, error);
+
+        if (data.user != null) {
+            guardar(data.user.id);
+            navigation.navigate("LoginForm");
+        } else {
+            Alert.alert("Error", error?.message);
+        }
+    }
+
+    async function guardar(uid: string) {
+        const { error } = await supabase
+            .from('cliente')
+            .insert({
+                cedula: cedula,
+                nombre_completo: fullName,
+                correo: email,
+            });
+
+        if (error) {
+            console.error('Error al guardar perfil:', error);
+        }
+    }
 
     return (
         <KeyboardAvoidingView
@@ -70,15 +88,7 @@ export default function RegistroScreen() {
                 <View style={styles.overlay} />
 
                 <ScrollView contentContainerStyle={styles.scrollContainer}>
-                    <Animated.View
-                        style={[
-                            styles.header,
-                            {
-                                opacity: fadeAnim,
-                                transform: [{ translateY: slideAnim }]
-                            }
-                        ]}
-                    >
+                    <View style={styles.header}>
                         <TouchableOpacity
                             style={styles.backButton}
                             onPress={() => navigation.goBack()}
@@ -87,34 +97,17 @@ export default function RegistroScreen() {
                         </TouchableOpacity>
                         <Text style={styles.headerTitle}>Registro</Text>
                         <View style={styles.placeholder} />
-                    </Animated.View>
-                    <Animated.View
-                        style={[
-                            styles.logoContainer,
-                            {
-                                opacity: fadeAnim,
-                                transform: [
-                                    { translateY: slideAnim },
-                                    { scale: scaleAnim }
-                                ]
-                            }
-                        ]}
-                    >
+                    </View>
+
+                    <View style={styles.logoContainer}>
                         <View style={styles.logo}>
                             <Text style={styles.logoText}>S</Text>
                         </View>
                         <Text style={styles.title}>Únete a StartUps</Text>
                         <Text style={styles.subtitle}>Crea tu cuenta y comienza</Text>
-                    </Animated.View>
-                    <Animated.View
-                        style={[
-                            styles.formContainer,
-                            {
-                                opacity: fadeAnim,
-                                transform: [{ translateY: slideAnim }]
-                            }
-                        ]}
-                    >
+                    </View>
+
+                    <View style={styles.formContainer}>
                         <View style={styles.inputContainer}>
                             <Ionicons name="person-outline" size={20} color="#666" style={styles.inputIcon} />
                             <TextInput
@@ -137,6 +130,18 @@ export default function RegistroScreen() {
                                 onChangeText={setEmail}
                                 keyboardType="email-address"
                                 autoCapitalize="none"
+                            />
+                        </View>
+
+                        <View style={styles.inputContainer}>
+                            <Ionicons name="card-outline" size={20} color="#666" style={styles.inputIcon} />
+                            <TextInput
+                                style={styles.input}
+                                placeholder="Cédula"
+                                placeholderTextColor="#999"
+                                value={cedula}
+                                onChangeText={setCedula}
+                                keyboardType="numeric"
                             />
                         </View>
 
@@ -182,12 +187,15 @@ export default function RegistroScreen() {
                                 />
                             </TouchableOpacity>
                         </View>
+
                         <TouchableOpacity
-                            style={[styles.registerButton, styles.registerButtonDisabled]}
-                            onPress={handleRegister}
+                            style={styles.registerButton}
+                            onPress={registro}
                             activeOpacity={0.8}
                         >
-                            <Text style={styles.registerButtonText}>Crear Cuenta</Text>
+                            <Text style={styles.registerButtonText}>
+                                Crear Cuenta
+                            </Text>
                         </TouchableOpacity>
                         <View style={styles.dividerContainer}>
                             <View style={styles.divider} />
@@ -211,7 +219,7 @@ export default function RegistroScreen() {
                                 <Text style={styles.loginLink}>Inicia sesión</Text>
                             </TouchableOpacity>
                         </View>
-                    </Animated.View>
+                    </View>
                 </ScrollView>
             </ImageBackground>
         </KeyboardAvoidingView>
