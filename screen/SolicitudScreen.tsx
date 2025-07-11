@@ -84,7 +84,7 @@ export default function SolicitudScreen() {
 
   return (
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
-      {/* Header del emprendimiento */}
+  
       <LinearGradient
         colors={['#4CAF50', '#45A049']}
         style={styles.headerGradient}
@@ -106,7 +106,7 @@ export default function SolicitudScreen() {
         <Text style={styles.formTitle}>Formulario de Solicitud</Text>
         <Text style={styles.formSubtitle}>Completa la información para contactar con {emprendimiento.name}</Text>
 
-        {/* Información Personal */}
+  
         <View style={styles.fieldContainer}>
           <Text style={styles.fieldLabel}>Nombre Completo *</Text>
           <TextInput
@@ -152,7 +152,7 @@ export default function SolicitudScreen() {
           />
         </View>
 
-        {/* Presupuesto estimado */}
+
         {formData.tipoSolicitud === 'Solicitar Cotización' && (
           <View style={styles.fieldContainer}>
             <Text style={styles.fieldLabel}>Presupuesto Estimado (USD)</Text>
@@ -167,7 +167,7 @@ export default function SolicitudScreen() {
           </View>
         )}
 
-        {/* Mensaje */}
+
         <View style={styles.fieldContainer}>
           <Text style={styles.fieldLabel}>Mensaje *</Text>
           <TextInput
@@ -182,7 +182,7 @@ export default function SolicitudScreen() {
           />
         </View>
 
-        {/* Información del emprendimiento */}
+
         <View style={styles.infoCard}>
           <Text style={styles.infoCardTitle}>Información del Emprendimiento</Text>
           <Text style={styles.infoCardDescription}>{emprendimiento.description}</Text>
@@ -198,7 +198,6 @@ export default function SolicitudScreen() {
           </View>
         </View>
 
-        {/* Botones */}
         <View style={styles.buttonContainer}>
           <TouchableOpacity style={styles.cancelButton} onPress={() => navigation.goBack()}>
             <Text style={styles.cancelButtonText}>Cancelar</Text>
