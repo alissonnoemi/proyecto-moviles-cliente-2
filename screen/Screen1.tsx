@@ -1,9 +1,12 @@
 import { Text, View, ScrollView, TouchableOpacity, Image } from 'react-native'
 import React from 'react'
 import { Ionicons } from '@expo/vector-icons'
+import { useNavigation } from '@react-navigation/native'
 import { screen1Styles as styles } from '../styles/Screen1Styles'
 
 export default function Screen1() {
+  const navigation = useNavigation<any>()
+
   const emprendimientos = [
     {
       id: 1,
@@ -31,6 +34,10 @@ export default function Screen1() {
     }
   ];
 
+  const handleSolicitar = (emprendimiento: any) => {
+    navigation.navigate('Solicitud', { emprendimiento })
+  }
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -52,8 +59,11 @@ export default function Screen1() {
               </View>
               <Text style={styles.category}>{item.category}</Text>
               <Text style={styles.description}>{item.description}</Text>
-              <TouchableOpacity style={styles.viewButton}>
-                <Text style={styles.viewButtonText}>Ver más</Text>
+              <TouchableOpacity 
+                style={styles.viewButton}
+                onPress={() => handleSolicitar(item)}
+              >
+                <Text style={styles.viewButtonText}>Solicitar</Text>
                 <Ionicons name="arrow-forward" size={16} color="#2196F3" />
               </TouchableOpacity>
             </View>

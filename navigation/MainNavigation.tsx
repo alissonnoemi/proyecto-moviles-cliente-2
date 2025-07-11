@@ -5,7 +5,6 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
 import WelcomeScreen from '../screen/WelcomeScreen';
 import Screen1 from '../screen/Screen1';
-import Screen2 from '../screen/Screen2';
 import LoginScreen from '../screen/LoginScreen';
 import InicioSesionScreen from '../screen/InicioSesionScreen';
 import RegistroScreen from '../screen/RegistroScreen';
@@ -34,7 +33,6 @@ function MyTabs() {
         <Tab.Navigator initialRouteName="Welcome" screenOptions={{ headerShown: false }}>
             <Tab.Screen name="Welcome" component={WelcomeScreen} />
             <Tab.Screen name="Screen1" component={Screen1} options={{ title: 'Emprendimientos' }} />
-            <Tab.Screen name="Screen2" component={Screen2} options={{ title: 'Servicios' }} />
         </Tab.Navigator>
     );
 }
