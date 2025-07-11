@@ -42,7 +42,7 @@ export default function InicioSesionScreen() {
         })
         console.log(data, error)
         if (data.user != null) {
-            navigation.navigate("Tabs")
+            navigation.navigate("Main")
         } else {
             Alert.alert("Error", error?.message)
         }
