@@ -11,6 +11,9 @@ import LoginScreen from '../screen/LoginScreen';
 import InicioSesionScreen from '../screen/InicioSesionScreen';
 import RegistroScreen from '../screen/RegistroScreen';
 import { createStackNavigator } from '@react-navigation/stack';
+import PerfilScreen from '../screen/PerfilScreen';
+import ReseniaScreen from '../screen/ReseniaScreen';
+import SolicitudScreen from '../screen/SolicitudScreen';
 
 const Tab = createBottomTabNavigator();
 const Drawer = createDrawerNavigator();
@@ -33,10 +36,19 @@ function MyTabs() {
             <Tab.Screen name="Welcome" component={WelcomeScreen} />
             <Tab.Screen name="Screen1" component={Screen1} options={{ title: 'Emprendimientos' }} />
             <Tab.Screen name="Screen2" component={Screen2} options={{ title: 'Servicios' }} />
+            <Tab.Screen name='Drawer' component={MyDrawer} options={{ headerShown: false }} />
         </Tab.Navigator>
     );
 }
-
+function MyDrawer() {
+    return(
+        <Drawer.Navigator>
+            <Drawer.Screen name="Perfil" component={PerfilScreen} />
+            <Drawer.Screen name="Resenia" component={ReseniaScreen} />
+            <Drawer.Screen name="Solicitud" component={SolicitudScreen} />
+        </Drawer.Navigator>
+    )
+}
 
 export default function MainNavigation() {
     return (

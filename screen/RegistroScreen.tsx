@@ -60,16 +60,26 @@ export default function RegistroScreen() {
     }
 
     async function guardar(uid: string) {
-        const { error } = await supabase
-            .from('cliente')
-            .insert({
-                cedula: cedula,
-                nombre_completo: fullName,
-                correo: email,
-            });
+        try {
+            console.log('Guardando perfil para usuario:', uid);
+            
+            const { error } = await supabase
+                .from('cliente')
+                .insert({
+                    uid: uid,  
+                    cedula: cedula,
+                    nombre_completo: fullName,
+                    correo: email,
+                });
 
-        if (error) {
-            console.error('Error al guardar perfil:', error);
+            if (error) {
+                console.error('Error al guardar perfil:', error);
+                Alert.alert('Advertencia', 'Usuario creado pero hubo un problema al guardar el perfil');
+            } else {
+                console.log('Perfil guardado exitosamente');
+            }
+        } catch (error) {
+            console.error('Error de red al guardar perfil:', error);
         }
     }
 
