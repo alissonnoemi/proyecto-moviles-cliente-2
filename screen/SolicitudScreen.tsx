@@ -25,36 +25,24 @@ export default function SolicitudScreen() {
   }, [])
 
   const cargarDatosUsuario = async () => {
-    try {
-      // Obtener usuario autenticado
+
+      //obtener usuario
       const { data: { user } } = await supabase.auth.getUser()
-      
       if (user) {
-        // Obtener datos del cliente desde la tabla
+        //cliente de la tabla
         const { data: clienteData } = await supabase
           .from('cliente')
           .select('*')
           .eq('uid', user.id)
           .single()
 
-        // Cargar los datos en el formulario
+        //carga de datos desde el form
         setFormData(prev => ({
           ...prev,
           nombre: clienteData?.nombre_completo || '',
           email: user.email || ''
         }))
       }
-    } catch (error) {
-      console.error('Error cargando datos del usuario:', error)
-      // En caso de error, solo cargar el email del usuario auth
-      const { data: { user } } = await supabase.auth.getUser()
-      if (user) {
-        setFormData(prev => ({
-          ...prev,
-          email: user.email || ''
-        }))
-      }
-    }
   }
 
   const handleInputChange = (field: string, value: string) => {
