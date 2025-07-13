@@ -14,7 +14,6 @@ interface ServicioSeleccionado {
   cantidad: number
   subtotal: number
 }
-
 export default function SolicitudScreen() {
   const ruta = useRoute<any>()
   const navegacion = useNavigation<any>()
@@ -22,7 +21,6 @@ export default function SolicitudScreen() {
   const serviciosDisponibles = ruta.params?.servicios || []
   const [serviciosSeleccionados, setServiciosSeleccionados] = useState<ServicioSeleccionado[]>([])
   const [total, setTotal] = useState(0)
-
   const [datosFormulario, setDatosFormulario] = useState({
     nombre: '',
     email: '',
@@ -39,7 +37,6 @@ export default function SolicitudScreen() {
   }, [serviciosSeleccionados])
 
   const cargarDatosUsuario = async () => {
-    try {
       const { data: { user: usuario } } = await supabase.auth.getUser()
       if (!usuario) {
         console.error('Usuario no encontrado')
@@ -64,11 +61,6 @@ export default function SolicitudScreen() {
           email: datosCliente.correo || usuario.email || '',
         }))
       }
-    } catch (error) {
-      console.error('Error:', error)
-      Alert.alert('Error', 'Ocurrió un error inesperado')
-      navegacion.goBack()
-    }
   }
 
   const agregarServicio = (servicio: any) => {
@@ -174,40 +166,23 @@ export default function SolicitudScreen() {
   const camposFormulario = () => (
     <View style={styles.formFieldsContainer}>
       <View style={styles.fieldContainer}>
-        <Text style={styles.fieldLabel}>Nombre Completo *</Text>
+        <Text style={styles.fieldLabel}>Nombre Completo</Text>
         <TextInput
           style={[styles.textInput, styles.textInputReadOnly]}
           value={datosFormulario.nombre}
-          placeholder="Ingresa tu nombre completo"
           placeholderTextColor="#999"
           editable={false}
         />
       </View>
 
       <View style={styles.fieldContainer}>
-        <Text style={styles.fieldLabel}>Email *</Text>
+        <Text style={styles.fieldLabel}>Email</Text>
         <TextInput
           style={[styles.textInput, styles.textInputReadOnly]}
           value={datosFormulario.email}
           placeholder="correo@ejemplo.com"
           placeholderTextColor="#999"
-          keyboardType="email-address"
-          autoCapitalize="none"
           editable={false}
-        />
-      </View>
-
-      <View style={styles.fieldContainer}>
-        <Text style={styles.fieldLabel}>Mensaje *</Text>
-        <TextInput
-          style={[styles.textInput, styles.textArea]}
-          value={datosFormulario.mensaje}
-          onChangeText={(valor) => setDatosFormulario(prev => ({ ...prev, mensaje: valor }))}
-          placeholder="Describe tu solicitud detalladamente..."
-          placeholderTextColor="#999"
-          multiline
-          numberOfLines={4}
-          textAlignVertical="top"
         />
       </View>
     </View>

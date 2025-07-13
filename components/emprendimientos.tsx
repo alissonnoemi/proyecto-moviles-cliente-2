@@ -125,12 +125,6 @@ export default function Emprendimientos() {
                                     <Text style={styles.detalleLabel}>CATEGORÍA:</Text>
                                     <Text style={styles.detalleValor}>{emprendimientoSeleccionado.categoria}</Text>
                                 </View>
-
-                                <View style={styles.detalleItem}>
-                                    <Text style={styles.detalleLabel}>RUC:</Text>
-                                    <Text style={styles.detalleValor}>{emprendimientoSeleccionado.ruc}</Text>
-                                </View>
-
                                 <Text style={styles.serviciosTitle}>Servicios Disponibles:</Text>
                                 {servicios.length === 0 ? (
                                     <Text style={styles.noServiciosText}>No hay servicios disponibles</Text>
