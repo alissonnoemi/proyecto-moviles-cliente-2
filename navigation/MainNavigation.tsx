@@ -12,6 +12,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import PerfilScreen from '../screen/PerfilScreen';
 import ReseniaScreen from '../screen/ReseniaScreen';
 import SolicitudScreen from '../screen/SolicitudScreen';
+import HistorialSolicitudScreen from '../screen/HistorialSolicitudScreen';
 
 const Tab = createBottomTabNavigator();
 const Drawer = createDrawerNavigator();
@@ -23,6 +24,21 @@ function MyStack() {
             <Stack.Screen name='Login' component={LoginScreen} />
             <Stack.Screen name='LoginForm' component={InicioSesionScreen} />
             <Stack.Screen name='Register' component={RegistroScreen} />
+            <Stack.Screen 
+                name='Solicitud' 
+                component={SolicitudScreen} 
+                options={{ 
+                    headerShown: true,
+                    title: 'Solicitud de Servicio',
+                    headerStyle: {
+                        backgroundColor: '#4CAF50',
+                    },
+                    headerTintColor: '#fff',
+                    headerTitleStyle: {
+                        fontWeight: 'bold',
+                    },
+                }}
+            />
             <Stack.Screen name="Main" component={MyDrawer} />
         </Stack.Navigator>
     )
@@ -43,7 +59,7 @@ function MyDrawer() {
             <Drawer.Screen name="Tabs" component={MyTabs} options={{ title: 'Inicio' }} />
             <Drawer.Screen name="Perfil" component={PerfilScreen} />
             <Drawer.Screen name="Resenia" component={ReseniaScreen} options={{ title: 'Reseñas' }} />
-            <Drawer.Screen name="Solicitud" component={SolicitudScreen} options={{ title: 'Solicitudes' }} />
+            <Drawer.Screen name="Historial Solicitudes" component={HistorialSolicitudScreen} options={{ title: 'Historial Pedidos' }} />
         </Drawer.Navigator>
     )
 }

@@ -88,4 +88,11 @@ export const screen1Styles = StyleSheet.create({
     color: '#2196F3',
     fontWeight: '600',
   },
+  masServiciosText: {
+    fontSize: 14,
+    color: '#4CAF50',
+    textAlign: 'center',
+    marginTop: 10,
+    fontWeight: '600',
+  },
 });
