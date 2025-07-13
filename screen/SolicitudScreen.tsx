@@ -16,14 +16,14 @@ interface ServicioSeleccionado {
 }
 
 export default function SolicitudScreen() {
-  const route = useRoute<any>()
-  const navigation = useNavigation<any>()
-  const emprendimiento = route.params?.emprendimiento
-  const serviciosDisponibles = route.params?.servicios || []
-const [serviciosSeleccionados, setServiciosSeleccionados] = useState<ServicioSeleccionado[]>([])
+  const ruta = useRoute<any>()
+  const navegacion = useNavigation<any>()
+  const emprendimiento = ruta.params?.emprendimiento
+  const serviciosDisponibles = ruta.params?.servicios || []
+  const [serviciosSeleccionados, setServiciosSeleccionados] = useState<ServicioSeleccionado[]>([])
   const [total, setTotal] = useState(0)
 
-  const [formData, setFormData] = useState({
+  const [datosFormulario, setDatosFormulario] = useState({
     nombre: '',
     email: '',
     mensaje: '',
@@ -34,42 +34,40 @@ const [serviciosSeleccionados, setServiciosSeleccionados] = useState<ServicioSel
   }, [])
 
   useEffect(() => {
-    const nuevoTotal = serviciosSeleccionados.reduce((sum, servicio) => sum + servicio.subtotal, 0)
+    const nuevoTotal = serviciosSeleccionados.reduce((suma, servicio) => suma + servicio.subtotal, 0)
     setTotal(nuevoTotal)
   }, [serviciosSeleccionados])
 
   const cargarDatosUsuario = async () => {
     try {
-      const { data: { user } } = await supabase.auth.getUser()
-      
-      // Agregar validación para TypeScript
-      if (!user) {
+      const { data: { user: usuario } } = await supabase.auth.getUser()
+      if (!usuario) {
         console.error('Usuario no encontrado')
-        navigation.goBack()
+        navegacion.goBack()
         return
       }
 
-      const { data: clienteData, error } = await supabase
+      const { data: datosCliente, error } = await supabase
         .from('cliente')
         .select('*')
-        .eq('uid', user.id)
+        .eq('uid', usuario.id)
         .single()
 
       if (error) {
         console.error('Error obteniendo datos del cliente:', error)
         Alert.alert('Error', 'No se pudo cargar la información del cliente')
-        navigation.goBack()
+        navegacion.goBack()
       } else {
-        setFormData(prev => ({
+        setDatosFormulario(prev => ({
           ...prev,
-          nombre: clienteData.nombre_completo || '',
-          email: clienteData.correo || user.email || '',
+          nombre: datosCliente.nombre_completo || '',
+          email: datosCliente.correo || usuario.email || '',
         }))
       }
     } catch (error) {
       console.error('Error:', error)
       Alert.alert('Error', 'Ocurrió un error inesperado')
-      navigation.goBack()
+      navegacion.goBack()
     }
   }
 
@@ -110,8 +108,8 @@ const [serviciosSeleccionados, setServiciosSeleccionados] = useState<ServicioSel
     setServiciosSeleccionados(serviciosSeleccionados.filter(s => s.id_servicio !== id_servicio))
   }
 
-  const handleSubmit = async () => {
-    if (!formData.nombre || !formData.email || !formData.mensaje) {
+  const manejarEnvio = async () => {
+    if (!datosFormulario.nombre || !datosFormulario.email || !datosFormulario.mensaje) {
       Alert.alert('Error', 'Por favor completa todos los campos obligatorios')
       return
     }
@@ -122,10 +120,10 @@ const [serviciosSeleccionados, setServiciosSeleccionados] = useState<ServicioSel
     }
 
     try {
-      const { data: { user } } = await supabase.auth.getUser()
+      const { data: { user: usuario } } = await supabase.auth.getUser()
 
       const solicitudes = serviciosSeleccionados.map(servicio => ({
-        uid_cliente: user!.id, 
+        uid_cliente: usuario!.id, 
         id_servicio: servicio.id_servicio,   
         estado: 'SOLICITADO',           
         total: servicio.subtotal,       
@@ -145,7 +143,7 @@ const [serviciosSeleccionados, setServiciosSeleccionados] = useState<ServicioSel
       Alert.alert(
         'Solicitud Enviada',
         `Tu solicitud ha sido enviada exitosamente.\n\nTotal: $${total}\n\nTe contactaremos pronto.`,
-        [{ text: 'OK', onPress: () => navigation.goBack() }]
+        [{ text: 'OK', onPress: () => navegacion.goBack() }]
       )
 
     } catch (error) {
@@ -154,8 +152,7 @@ const [serviciosSeleccionados, setServiciosSeleccionados] = useState<ServicioSel
     }
   }
 
-  // Componentes de renderizado
-  const renderHeader = () => (
+  const encabezado = () => (
     <LinearGradient colors={['#4CAF50', '#45A049']} style={styles.headerGradient}>
       <View style={styles.headerContent}>
         <Image source={{ uri: emprendimiento.image }} style={styles.emprendimientoImage} />
@@ -167,20 +164,20 @@ const [serviciosSeleccionados, setServiciosSeleccionados] = useState<ServicioSel
     </LinearGradient>
   )
 
-  const renderFormTitle = () => (
+  const tituloFormulario = () => (
     <View style={styles.titleContainer}>
       <Text style={styles.formTitle}>Formulario de Solicitud</Text>
       <Text style={styles.formSubtitle}>Completa la información para contactar con {emprendimiento.name}</Text>
     </View>
   )
 
-  const renderFormFields = () => (
+  const camposFormulario = () => (
     <View style={styles.formFieldsContainer}>
       <View style={styles.fieldContainer}>
         <Text style={styles.fieldLabel}>Nombre Completo *</Text>
         <TextInput
           style={[styles.textInput, styles.textInputReadOnly]}
-          value={formData.nombre}
+          value={datosFormulario.nombre}
           placeholder="Ingresa tu nombre completo"
           placeholderTextColor="#999"
           editable={false}
@@ -191,7 +188,7 @@ const [serviciosSeleccionados, setServiciosSeleccionados] = useState<ServicioSel
         <Text style={styles.fieldLabel}>Email *</Text>
         <TextInput
           style={[styles.textInput, styles.textInputReadOnly]}
-          value={formData.email}
+          value={datosFormulario.email}
           placeholder="correo@ejemplo.com"
           placeholderTextColor="#999"
           keyboardType="email-address"
@@ -204,8 +201,8 @@ const [serviciosSeleccionados, setServiciosSeleccionados] = useState<ServicioSel
         <Text style={styles.fieldLabel}>Mensaje *</Text>
         <TextInput
           style={[styles.textInput, styles.textArea]}
-          value={formData.mensaje}
-          onChangeText={(value) => setFormData(prev => ({ ...prev, mensaje: value }))}
+          value={datosFormulario.mensaje}
+          onChangeText={(valor) => setDatosFormulario(prev => ({ ...prev, mensaje: valor }))}
           placeholder="Describe tu solicitud detalladamente..."
           placeholderTextColor="#999"
           multiline
@@ -216,7 +213,7 @@ const [serviciosSeleccionados, setServiciosSeleccionados] = useState<ServicioSel
     </View>
   )
 
-  const renderServiciosDisponibles = () => (
+  const erviciosDisponibles = () => (
     <View style={styles.serviciosSection}>
       <Text style={styles.sectionTitle}>Servicios Disponibles</Text>
       {serviciosDisponibles.map((servicio: any) => (
@@ -238,7 +235,7 @@ const [serviciosSeleccionados, setServiciosSeleccionados] = useState<ServicioSel
     </View>
   )
 
-  const renderServiciosSeleccionados = () => {
+  const sserviciosSeleccionados = () => {
     if (serviciosSeleccionados.length === 0) return null
 
     return (
@@ -282,12 +279,12 @@ const [serviciosSeleccionados, setServiciosSeleccionados] = useState<ServicioSel
     )
   }
 
-  const renderButtons = () => (
+  const botones = () => (
     <View style={styles.buttonContainer}>
-      <TouchableOpacity style={styles.cancelButton} onPress={() => navigation.goBack()}>
+      <TouchableOpacity style={styles.cancelButton} onPress={() => navegacion.goBack()}>
         <Text style={styles.cancelButtonText}>Cancelar</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.submitButton} onPress={handleSubmit}>
+      <TouchableOpacity style={styles.submitButton} onPress={manejarEnvio}>
         <Ionicons name="send" size={20} color="#fff" />
         <Text style={styles.submitButtonText}>Enviar Solicitud</Text>
       </TouchableOpacity>
@@ -299,7 +296,7 @@ const [serviciosSeleccionados, setServiciosSeleccionados] = useState<ServicioSel
       <View style={styles.errorContainer}>
         <Ionicons name="alert-circle-outline" size={60} color="#FF6B6B" />
         <Text style={styles.errorText}>No se encontró información del emprendimiento</Text>
-        <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
+        <TouchableOpacity style={styles.backButton} onPress={() => navegacion.goBack()}>
           <Text style={styles.backButtonText}>Volver</Text>
         </TouchableOpacity>
       </View>
@@ -308,17 +305,17 @@ const [serviciosSeleccionados, setServiciosSeleccionados] = useState<ServicioSel
 
   return (
     <View style={styles.container}>
-      {renderHeader()}
+      {encabezado()}
       
       <FlatList
         data={[{ key: 'content' }]}
         renderItem={() => (
           <View style={styles.formContainer}>
-            {renderFormTitle()}
-            {renderFormFields()}
-            {renderServiciosDisponibles()}
-            {renderServiciosSeleccionados()}
-            {renderButtons()}
+            {tituloFormulario()}
+            {camposFormulario()}
+            {erviciosDisponibles()}
+            {sserviciosSeleccionados()}
+            {botones()}
           </View>
         )}
         keyExtractor={(item) => item.key}

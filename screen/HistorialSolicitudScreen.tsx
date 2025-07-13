@@ -38,7 +38,7 @@ export default function HistorialSolicitudScreen() {
                 return
             }
 
-            //Obtener solicitudes básicas
+            //Obtener solicitud
             const { data: solicitudesData, error: solicitudesError } = await supabase
                 .from('solicitud')
                 .select('*')
@@ -109,8 +109,6 @@ export default function HistorialSolicitudScreen() {
             case 'solicitado': return '#FFA500'
             case 'aprobado': return '#4CAF50'
             case 'rechazado': return '#FF6B6B'
-            case 'en_proceso': return '#2196F3'
-            case 'completado': return '#4CAF50'
             default: return '#666'
         }
     }
