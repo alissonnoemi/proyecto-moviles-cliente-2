@@ -1,48 +1,33 @@
-import { StyleSheet, Dimensions } from 'react-native'
-
-const { width } = Dimensions.get('window')
+import { StyleSheet } from 'react-native'
 
 export const solicitudStyles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#f8f9fa',
   },
-  errorContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 20,
-  },
-  errorText: {
-    fontSize: 16,
-    color: '#666',
-    textAlign: 'center',
-    marginVertical: 20,
-  },
-  backButton: {
-    backgroundColor: '#007AFF',
-    paddingHorizontal: 20,
-    paddingVertical: 10,
-    borderRadius: 8,
-  },
-  backButtonText: {
-    color: '#fff',
-    fontSize: 16,
-    fontWeight: '600',
-  },
+  
   headerGradient: {
     paddingVertical: 20,
     paddingHorizontal: 20,
+    borderBottomLeftRadius: 20,
+    borderBottomRightRadius: 20,
+    elevation: 5,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
   },
   headerContent: {
     flexDirection: 'row',
     alignItems: 'center',
   },
   emprendimientoImage: {
-    width: 80,
-    height: 80,
-    borderRadius: 12,
+    width: 60,
+    height: 60,
+    borderRadius: 30,
     marginRight: 15,
+    borderWidth: 3,
+    borderColor: '#fff',
   },
   emprendimientoInfo: {
     flex: 1,
@@ -55,45 +40,33 @@ export const solicitudStyles = StyleSheet.create({
   },
   emprendimientoCategory: {
     fontSize: 14,
-    color: '#E8F5E8',
-    marginBottom: 8,
+    color: '#e8f5e8',
   },
-  ratingContainer: {
-    flexDirection: 'row',
+
+  formContainer: {
+    padding: 20,
+  },
+
+  titleContainer: {
+    marginBottom: 25,
     alignItems: 'center',
   },
-  ratingText: {
-    fontSize: 16,
-    color: '#fff',
-    marginLeft: 5,
-    fontWeight: '600',
-  },
-  formContainer: {
-    backgroundColor: '#fff',
-    margin: 20,
-    borderRadius: 15,
-    padding: 20,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.1,
-    shadowRadius: 8,
-    elevation: 5,
-  },
-  formScrollView: {
-    flex: 1,
-  },
   formTitle: {
-    fontSize: 22,
+    fontSize: 24,
     fontWeight: 'bold',
     color: '#333',
     marginBottom: 8,
+    textAlign: 'center',
   },
   formSubtitle: {
-    fontSize: 14,
+    fontSize: 16,
     color: '#666',
+    textAlign: 'center',
+    lineHeight: 22,
+  },
+
+  // Form fields
+  formFieldsContainer: {
     marginBottom: 25,
   },
   fieldContainer: {
@@ -105,45 +78,15 @@ export const solicitudStyles = StyleSheet.create({
     color: '#333',
     marginBottom: 8,
   },
-  tipoSolicitudContainer: {
-    gap: 10,
-  },
-  tipoSolicitudButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingVertical: 12,
-    paddingHorizontal: 15,
-    borderRadius: 10,
-    backgroundColor: '#f8f9fa',
-    borderWidth: 1,
-    borderColor: '#e0e0e0',
-  },
-  tipoSolicitudButtonActive: {
-    backgroundColor: '#4CAF50',
-    borderColor: '#4CAF50',
-  },
-  tipoSolicitudText: {
-    fontSize: 14,
-    color: '#666',
-    marginLeft: 10,
-    fontWeight: '500',
-  },
-  tipoSolicitudTextActive: {
-    color: '#fff',
-  },
   textInput: {
     borderWidth: 1,
-    borderColor: '#e0e0e0',
-    borderRadius: 10,
+    borderColor: '#ddd',
+    borderRadius: 8,
     paddingHorizontal: 15,
     paddingVertical: 12,
     fontSize: 16,
-    color: '#333',
     backgroundColor: '#fff',
-  },
-  textInputEmpty: {
-    borderColor: '#FFB74D',
-    backgroundColor: '#FFF8E1',
+    color: '#333',
   },
   textInputReadOnly: {
     backgroundColor: '#f8f9fa',
@@ -153,105 +96,33 @@ export const solicitudStyles = StyleSheet.create({
     height: 100,
     textAlignVertical: 'top',
   },
-  infoCard: {
-    backgroundColor: '#f8f9fa',
-    borderRadius: 10,
-    padding: 15,
+
+  // Services section
+  serviciosSection: {
     marginBottom: 25,
   },
-  infoCardTitle: {
-    fontSize: 16,
+  sectionTitle: {
+    fontSize: 18,
     fontWeight: 'bold',
     color: '#333',
-    marginBottom: 8,
+    marginBottom: 15,
   },
-  infoCardDescription: {
-    fontSize: 14,
-    color: '#666',
-    marginBottom: 12,
-    lineHeight: 20,
-  },
-  infoCardDetails: {
-    gap: 8,
-  },
-  infoCardRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  infoCardText: {
-    fontSize: 14,
-    color: '#666',
-    marginLeft: 8,
-  },
-  buttonContainer: {
-    flexDirection: 'row',
-    gap: 15,
-    marginTop: 10,
-  },
-  cancelButton: {
-    flex: 1,
-    backgroundColor: '#f8f9fa',
-    paddingVertical: 15,
-    borderRadius: 10,
-    alignItems: 'center',
-    borderWidth: 1,
-    borderColor: '#e0e0e0',
-  },
-  cancelButtonText: {
-    fontSize: 16,
-    color: '#666',
-    fontWeight: '600',
-  },
-  submitButton: {
-    flex: 2,
-    backgroundColor: '#4CAF50',
-    paddingVertical: 15,
-    borderRadius: 10,
-    alignItems: 'center',
-    flexDirection: 'row',
-    justifyContent: 'center',
-    shadowColor: '#4CAF50',
-    shadowOffset: {
-      width: 0,
-      height: 4,
-    },
-    shadowOpacity: 0.3,
-    shadowRadius: 8,
-    elevation: 8,
-  },
-  submitButtonText: {
-    fontSize: 16,
-    color: '#fff',
-    fontWeight: 'bold',
-    marginLeft: 8,
-  },
-  helperText: {
-    fontSize: 12,
-    color: '#666',
-    marginTop: 5,
-    fontStyle: 'italic',
-  },
+
+  // Available services
   servicioDisponible: {
-    backgroundColor: '#f8f9fa',
-    borderRadius: 10,
+    backgroundColor: '#fff',
+    borderRadius: 12,
     padding: 15,
     marginBottom: 10,
     flexDirection: 'row',
-    justifyContent: 'space-between',
     alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.1,
+    shadowRadius: 2,
+    elevation: 2,
     borderWidth: 1,
-    borderColor: '#e0e0e0',
-  },
-  servicioSeleccionado: {
-    backgroundColor: '#E8F5E8',
-    borderRadius: 10,
-    padding: 15,
-    marginBottom: 10,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    borderWidth: 1,
-    borderColor: '#4CAF50',
+    borderColor: '#f0f0f0',
   },
   servicioInfo: {
     flex: 1,
@@ -265,33 +136,46 @@ export const solicitudStyles = StyleSheet.create({
   servicioDescripcion: {
     fontSize: 14,
     color: '#666',
+    lineHeight: 20,
   },
   servicioPrecio: {
-    flexDirection: 'row',
     alignItems: 'center',
-    gap: 10,
+    marginLeft: 15,
   },
   servicioTexto: {
     fontSize: 16,
     fontWeight: 'bold',
     color: '#4CAF50',
+    marginBottom: 5,
+  },
+
+  // Selected services
+  servicioSeleccionado: {
+    backgroundColor: '#e8f5e8',
+    borderRadius: 12,
+    padding: 15,
+    marginBottom: 10,
+    borderWidth: 1,
+    borderColor: '#4CAF50',
   },
   cantidadContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 10,
+    marginTop: 10,
   },
   cantidadButton: {
     backgroundColor: '#fff',
     borderRadius: 6,
     padding: 8,
+    marginHorizontal: 5,
     borderWidth: 1,
-    borderColor: '#e0e0e0',
+    borderColor: '#ddd',
   },
   cantidadTexto: {
     fontSize: 16,
     fontWeight: 'bold',
     color: '#333',
+    marginHorizontal: 15,
     minWidth: 30,
     textAlign: 'center',
   },
@@ -299,24 +183,97 @@ export const solicitudStyles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
     color: '#4CAF50',
-    minWidth: 60,
-    textAlign: 'center',
+    marginLeft: 15,
+    flex: 1,
   },
   eliminarButton: {
-    backgroundColor: '#FFE6E6',
+    backgroundColor: '#fff',
     borderRadius: 6,
     padding: 8,
+    borderWidth: 1,
+    borderColor: '#FF6B6B',
+    marginLeft: 10,
   },
+
+  // Total
   totalContainer: {
     backgroundColor: '#4CAF50',
-    borderRadius: 10,
+    borderRadius: 12,
     padding: 15,
     marginTop: 10,
     alignItems: 'center',
   },
   totalTexto: {
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: 'bold',
     color: '#fff',
+  },
+
+  // Buttons
+  buttonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: 20,
+    marginBottom: 30,
+  },
+  cancelButton: {
+    backgroundColor: '#fff',
+    borderRadius: 12,
+    paddingVertical: 15,
+    paddingHorizontal: 30,
+    borderWidth: 1,
+    borderColor: '#ddd',
+    flex: 1,
+    marginRight: 10,
+    alignItems: 'center',
+  },
+  cancelButtonText: {
+    fontSize: 16,
+    color: '#666',
+    fontWeight: '600',
+  },
+  submitButton: {
+    backgroundColor: '#4CAF50',
+    borderRadius: 12,
+    paddingVertical: 15,
+    paddingHorizontal: 30,
+    flex: 1,
+    marginLeft: 10,
+    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'center',
+  },
+  submitButtonText: {
+    fontSize: 16,
+    color: '#fff',
+    fontWeight: 'bold',
+    marginLeft: 8,
+  },
+
+  // Error states
+  errorContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#f8f9fa',
+    padding: 20,
+  },
+  errorText: {
+    fontSize: 18,
+    color: '#666',
+    textAlign: 'center',
+    marginTop: 20,
+    marginBottom: 30,
+  },
+  backButton: {
+    backgroundColor: '#4CAF50',
+    borderRadius: 12,
+    paddingVertical: 12,
+    paddingHorizontal: 30,
+  },
+  backButtonText: {
+    fontSize: 16,
+    color: '#fff',
+    fontWeight: '600',
   },
 })
