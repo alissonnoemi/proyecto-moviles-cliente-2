@@ -101,7 +101,7 @@ export default function SolicitudScreen() {
   }
 
   const manejarEnvio = async () => {
-    if (!datosFormulario.nombre || !datosFormulario.email || !datosFormulario.mensaje) {
+    if (!datosFormulario.nombre || !datosFormulario.email) {
       Alert.alert('Error', 'Por favor completa todos los campos obligatorios')
       return
     }
