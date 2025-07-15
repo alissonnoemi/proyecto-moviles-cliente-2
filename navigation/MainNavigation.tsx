@@ -13,6 +13,7 @@ import PerfilScreen from '../screen/PerfilScreen';
 import ReseniaScreen from '../screen/ReseniaScreen';
 import SolicitudScreen from '../screen/SolicitudScreen';
 import HistorialSolicitudScreen from '../screen/HistorialSolicitudScreen';
+import HistorialReseniasScreen from '../screen/HistorialReseniasScreen';
 
 const Tab = createBottomTabNavigator();
 const Drawer = createDrawerNavigator();
@@ -23,11 +24,12 @@ function MyStack() {
         <Stack.Navigator initialRouteName='Login' screenOptions={{ headerShown: false }}>
             <Stack.Screen name='Login' component={LoginScreen} />
             <Stack.Screen name='LoginForm' component={InicioSesionScreen} />
+            <Stack.Screen name='Reseña' component={ReseniaScreen} />
             <Stack.Screen name='Register' component={RegistroScreen} />
-            <Stack.Screen 
-                name='Solicitud' 
-                component={SolicitudScreen} 
-                options={{ 
+            <Stack.Screen
+                name='Solicitud'
+                component={SolicitudScreen}
+                options={{
                     headerShown: true,
                     title: 'Solicitud de Servicio',
                     headerStyle: {
@@ -54,12 +56,12 @@ function MyTabs() {
 }
 
 function MyDrawer() {
-    return(
+    return (
         <Drawer.Navigator screenOptions={{ headerShown: true }}>
             <Drawer.Screen name="Tabs" component={MyTabs} options={{ title: 'Inicio' }} />
             <Drawer.Screen name="Perfil" component={PerfilScreen} />
-            <Drawer.Screen name="Resenia" component={ReseniaScreen} options={{ title: 'Reseñas' }} />
             <Drawer.Screen name="Historial Solicitudes" component={HistorialSolicitudScreen} options={{ title: 'Historial Pedidos' }} />
+            <Drawer.Screen name='Historial Reseñas' component={HistorialReseniasScreen} options={{ title: 'Historial Reseñas' }} />
         </Drawer.Navigator>
     )
 }

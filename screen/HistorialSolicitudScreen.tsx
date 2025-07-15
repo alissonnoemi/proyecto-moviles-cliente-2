@@ -17,13 +17,14 @@ interface Solicitud {
     servicio_precio: number
     emprendimiento_nombre: string
     emprendimiento_categoria: string
+    servicio: any
 }
 
 export default function HistorialSolicitudScreen() {
     const [solicitudes, setSolicitudes] = useState<Solicitud[]>([])
     const [loading, setLoading] = useState(true)
     const [refreshing, setRefreshing] = useState(false)
-    const navigation = useNavigation()
+    const navigation = useNavigation<any>()
 
     useEffect(() => {
         cargarSolicitudes()
@@ -38,18 +39,25 @@ export default function HistorialSolicitudScreen() {
                 return
             }
 
-            //Obtener solicitud
             const { data: solicitudesData, error: solicitudesError } = await supabase
                 .from('solicitud')
                 .select('*')
                 .eq('uid_cliente', user.id)
-                .order('id_solicitud', { ascending: false }) 
+                .order('id_solicitud', { ascending: false })
+
+            if (solicitudesError) {
+                console.error('Error cargando solicitudes:', solicitudesError)
+                Alert.alert('Error', 'No se pudieron cargar las solicitudes')
+                return
+            }
 
             if (!solicitudesData || solicitudesData.length === 0) {
                 setSolicitudes([])
+                setLoading(false)
+                setRefreshing(false)
                 return
             }
-            //Obtener servicios
+
             const servicioIds = solicitudesData.map(s => s.id_servicio)
             const { data: serviciosData, error: serviciosError } = await supabase
                 .from('servicio')
@@ -62,13 +70,16 @@ export default function HistorialSolicitudScreen() {
                 return
             }
 
-            //Obtener emprendimientos
             const emprendimientoRucs = serviciosData?.map(s => s.ruc_emprendimiento) || []
             const { data: emprendimientosData, error: emprendimientosError } = await supabase
                 .from('emprendimiento')
                 .select('*')
                 .in('ruc', emprendimientoRucs)
-            //Combinar todos los datos
+
+            if (emprendimientosError) {
+                console.error('Error cargando emprendimientos:', emprendimientosError)
+            }
+
             const solicitudesCompletas = solicitudesData.map(solicitud => {
                 const servicio = serviciosData?.find(s => s.id_servicio === solicitud.id_servicio)
                 const emprendimiento = emprendimientosData?.find(e => e.ruc === servicio?.ruc_emprendimiento)
@@ -79,12 +90,13 @@ export default function HistorialSolicitudScreen() {
                     estado: solicitud.estado,
                     total: solicitud.total,
                     cantidad: solicitud.cantidad,
-                    fecha_solicitud: `Solicitud #${solicitud.id_solicitud}`, 
+                    fecha_solicitud: `Solicitud #${solicitud.id_solicitud}`,
                     servicio_nombre: servicio?.nombre || 'Servicio no encontrado',
                     servicio_descripcion: servicio?.descripcion || 'Sin descripción',
                     servicio_precio: servicio?.precio || 0,
                     emprendimiento_nombre: emprendimiento?.nombre_emprendimiento || 'Emprendimiento no encontrado',
-                    emprendimiento_categoria: emprendimiento?.categoria || 'Sin categoría'
+                    emprendimiento_categoria: emprendimiento?.categoria || 'Sin categoría',
+                    servicio: servicio
                 }
             })
 
@@ -109,6 +121,7 @@ export default function HistorialSolicitudScreen() {
             case 'solicitado': return '#FFA500'
             case 'aprobado': return '#4CAF50'
             case 'rechazado': return '#FF6B6B'
+            case 'completado': return '#2196F3'
             default: return '#666'
         }
     }
@@ -122,6 +135,18 @@ export default function HistorialSolicitudScreen() {
             case 'completado': return 'checkmark-done-circle'
             default: return 'help-circle'
         }
+    }
+
+    const navegarAResenia = (servicio: any) => {
+        if (!servicio) {
+            Alert.alert('Error', 'No se pudo obtener la información del servicio')
+            return
+        }
+        navigation.navigate('Reseña', { servicio })
+    }
+
+    const navegarAHistorialResenias = () => {
+        navigation.navigate('HistorialReseniasScreen')
     }
 
     const renderSolicitud = ({ item }: { item: Solicitud }) => (
@@ -156,13 +181,19 @@ export default function HistorialSolicitudScreen() {
                     <Ionicons name="cube-outline" size={16} color="#666" />
                     <Text style={styles.detalleTexto}>Cantidad: {item.cantidad}</Text>
                 </View>
-
             </View>
 
             <View style={styles.totalContainer}>
                 <Text style={styles.totalLabel}>Total:</Text>
                 <Text style={styles.totalMonto}>${item.total}</Text>
             </View>
+            <TouchableOpacity
+                style={styles.botonResenia}
+                onPress={() => navegarAResenia(item.servicio)}
+            >
+                <Ionicons name="star-outline" size={20} color="#4CAF50" />
+                <Text style={styles.textoBotonResenia}>Escribir Reseña</Text>
+            </TouchableOpacity>
         </View>
     )
 
@@ -173,7 +204,7 @@ export default function HistorialSolicitudScreen() {
             <Text style={styles.emptySubtitle}>Aún no has realizado ninguna solicitud</Text>
             <TouchableOpacity
                 style={styles.emptyButton}
-                onPress={() => navigation.navigate('Screen1' as never)}
+                onPress={() => navigation.navigate('Screen1')}
             >
                 <Text style={styles.emptyButtonText}>Explorar Emprendimientos</Text>
             </TouchableOpacity>
@@ -186,6 +217,14 @@ export default function HistorialSolicitudScreen() {
             <Text style={styles.headerSubtitle}>
                 {solicitudes.length} solicitud{solicitudes.length !== 1 ? 'es' : ''}
             </Text>
+            
+            <TouchableOpacity
+                style={styles.botonVerResenias}
+                onPress={navegarAHistorialResenias}
+            >
+                <Ionicons name="star" size={20} color="#fff" />
+                <Text style={styles.textoBotonVerResenias}>Ver Todas las Reseñas</Text>
+            </TouchableOpacity>
         </View>
     )
 
