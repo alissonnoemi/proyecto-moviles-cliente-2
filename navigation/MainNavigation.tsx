@@ -61,7 +61,7 @@ function MyDrawer() {
             <Drawer.Screen name="Tabs" component={MyTabs} options={{ title: 'Inicio' }} />
             <Drawer.Screen name="Perfil" component={PerfilScreen} />
             <Drawer.Screen name="Historial Solicitudes" component={HistorialSolicitudScreen} options={{ title: 'Historial Pedidos' }} />
-            <Drawer.Screen name='Historial Reseñas' component={HistorialReseniasScreen} options={{ title: 'Historial Reseñas' }} />
+            <Drawer.Screen name='Historial Reseñas' component={HistorialReseniasScreen} options={{ title: 'Todas las Reseñas' }} />
         </Drawer.Navigator>
     )
 }
