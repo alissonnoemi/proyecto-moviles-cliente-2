@@ -207,22 +207,6 @@ export default function RegistroScreen() {
                                 Crear Cuenta
                             </Text>
                         </TouchableOpacity>
-                        <View style={styles.dividerContainer}>
-                            <View style={styles.divider} />
-                            <Text style={styles.dividerText}>o regístrate con</Text>
-                            <View style={styles.divider} />
-                        </View>
-                        <View style={styles.socialContainer}>
-                            <TouchableOpacity style={styles.socialButton}>
-                                <Ionicons name="logo-google" size={24} color="#4285F4" />
-                            </TouchableOpacity>
-                            <TouchableOpacity style={styles.socialButton}>
-                                <Ionicons name="logo-apple" size={24} color="#000" />
-                            </TouchableOpacity>
-                            <TouchableOpacity style={styles.socialButton}>
-                                <Ionicons name="logo-facebook" size={24} color="#1877F2" />
-                            </TouchableOpacity>
-                        </View>
                         <View style={styles.loginContainer}>
                             <Text style={styles.loginText}>¿Ya tienes cuenta? </Text>
                             <TouchableOpacity onPress={() => navigation.navigate('LoginForm')}>

@@ -5,14 +5,55 @@ import { useNavigation } from '@react-navigation/native'
 import { Ionicons } from '@expo/vector-icons'
 import { LinearGradient } from 'expo-linear-gradient'
 import { perfilStyles as styles } from '../styles/PerfilScreenStyles'
+import * as ImagePicker from 'expo-image-picker';
+
 
 export default function PerfilScreen() {
+    const [image, setImage] = useState<string | null>(null);
     const [usuario, setUsuario] = useState<any>(null)
     const [cliente, setCliente] = useState<any>(null)
     const [editingName, setEditingName] = useState(false)
     const [tempName, setTempName] = useState('')
     const navigation = useNavigation<any>()
+    async function actualizar() {
+        const avatarFile = image!
+        const { data, error } = await supabase
+            .storage
+            .from('avatars')
+            .update('public/avatar1.png', avatarFile, {
+                cacheControl: '3600',
+                upsert: true
+            })
+    }
+    async function subir() {
+        const avatarFile = image!
+        const { data, error } = await supabase
+            .storage
+            .from('imagenes')
+            .upload('public/avatar2.png', {
+                uri: image,
+                cacheControl: '3600',
+                upsert: false
+            } as any, {
+                contentType: 'image/png'
+            }
+            )
+        console.log(data, error)
+    }
+    const pickImage = async () => {
+        let result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ['images', 'videos'],
+            allowsEditing: true,
+            aspect: [4, 3],
+            quality: 1,
+        });
 
+        console.log(result);
+
+        if (!result.canceled) {
+            setImage(result.assets[0].uri);
+        }
+    };
     useEffect(() => {
         obtenerDatosCompletos()
     }, [])
@@ -30,9 +71,9 @@ export default function PerfilScreen() {
                     .from('cliente')
                     .select('*')
                     .eq('uid', user.id)
-                    
+
                 console.log("Buscando cliente con uid:", user.id)
-                
+
                 if (error) {
                     console.error('Error obteniendo cliente:', error)
                 } else {
@@ -111,18 +152,37 @@ export default function PerfilScreen() {
             >
                 <View style={styles.profileHeader}>
                     <View style={styles.avatarContainer}>
-                        <View style={styles.avatar}>
-                            <Text style={styles.avatarText}>
-                                {getInitials(cliente?.nombre_completo || usuario?.email || 'Usuario')}
-                            </Text>
-                        </View>
-                        <View style={styles.statusBadge}>
-                            <Ionicons name="checkmark-circle" size={20} color="#4CAF50" />
-                        </View>
+                        <TouchableOpacity
+                            style={styles.avatar}
+                            onPress={pickImage}
+                            activeOpacity={0.7}
+                        >
+                            {image ? (
+                                <Image source={{ uri: image }} style={styles.avatarImage} />
+                            ) : (
+                                <Text style={styles.avatarText}>
+                                    {getInitials(cliente?.nombre_completo || usuario?.email || 'Usuario')}
+                                </Text>
+                            )}
+
+                            <View style={styles.cameraOverlay}>
+                                <Ionicons name="camera" size={20} color="#fff" />
+                            </View>
+                        </TouchableOpacity>
                     </View>
                     <Text style={styles.userName}>
                         {cliente?.nombre_completo || usuario?.email?.split('@')[0] || 'Usuario'}
                     </Text>
+
+                    {image && (
+                        <TouchableOpacity
+                            style={styles.uploadButton}
+                            onPress={subir}
+                        >
+                            <Ionicons name="cloud-upload-outline" size={16} color="#fff" />
+                            <Text style={styles.uploadButtonText}>Subir Foto</Text>
+                        </TouchableOpacity>
+                    )}
                 </View>
             </LinearGradient>
 
@@ -130,10 +190,10 @@ export default function PerfilScreen() {
                 <View style={styles.statItem}>
                     <Ionicons name="calendar-outline" size={24} color="#007AFF" />
                     <Text style={styles.statNumber}>
-                        {new Date(usuario?.created_at).toLocaleDateString('es-ES', { 
-                            day: '2-digit', 
-                            month: '2-digit', 
-                            year: 'numeric' 
+                        {new Date(usuario?.created_at).toLocaleDateString('es-ES', {
+                            day: '2-digit',
+                            month: '2-digit',
+                            year: 'numeric'
                         })}
                     </Text>
                     <Text style={styles.statLabel}>Miembro desde</Text>
@@ -152,7 +212,7 @@ export default function PerfilScreen() {
 
             <View style={styles.infoSection}>
                 <Text style={styles.sectionTitle}>Información Personal</Text>
-                
+
                 <View style={styles.infoCard}>
                     <View style={styles.infoRow}>
                         <Ionicons name="person-outline" size={20} color="#666" />
@@ -168,14 +228,14 @@ export default function PerfilScreen() {
                                         placeholder="Ingresa tu nombre"
                                     />
                                     <View style={styles.editButtons}>
-                                        <TouchableOpacity 
-                                            style={styles.cancelButton} 
+                                        <TouchableOpacity
+                                            style={styles.cancelButton}
                                             onPress={handleCancelEdit}
                                         >
                                             <Ionicons name="close" size={16} color="#FF3B30" />
                                         </TouchableOpacity>
-                                        <TouchableOpacity 
-                                            style={styles.saveButton} 
+                                        <TouchableOpacity
+                                            style={styles.saveButton}
                                             onPress={handleSaveName}
                                         >
                                             <Ionicons name="checkmark" size={16} color="#4CAF50" />
@@ -222,19 +282,19 @@ export default function PerfilScreen() {
 
             <View style={styles.actionsSection}>
                 <Text style={styles.sectionTitle}>Acciones</Text>
-                
+
                 <TouchableOpacity style={styles.actionButton} onPress={handleEditName}>
                     <Ionicons name="create-outline" size={20} color="#007AFF" />
                     <Text style={styles.actionText}>Editar Perfil</Text>
                     <Ionicons name="chevron-forward" size={20} color="#C7C7CC" />
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.actionButton} onPress={() => {}}>
+                <TouchableOpacity style={styles.actionButton} onPress={() => { }}>
                     <Ionicons name="help-circle-outline" size={20} color="#007AFF" />
                     <Text style={styles.actionText}>Ayuda y Soporte</Text>
                     <Ionicons name="chevron-forward" size={20} color="#C7C7CC" />
                 </TouchableOpacity>
 
-                <TouchableOpacity style={styles.actionButton} onPress={() => {}}>
+                <TouchableOpacity style={styles.actionButton} onPress={() => { }}>
                     <Ionicons name="information-circle-outline" size={20} color="#007AFF" />
                     <Text style={styles.actionText}>Acerca de</Text>
                     <Ionicons name="chevron-forward" size={20} color="#C7C7CC" />

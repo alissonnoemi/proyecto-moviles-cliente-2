@@ -28,17 +28,15 @@ export default function HistorialSolicitudScreen() {
 
     useEffect(() => {
         cargarSolicitudes()
-    }, [])
+    }, [solicitudes])
 
     const cargarSolicitudes = async () => {
         try {
             const { data: { user } } = await supabase.auth.getUser()
-
             if (!user) {
                 Alert.alert('Error', 'Usuario no autenticado')
                 return
             }
-
             const { data: solicitudesData, error: solicitudesError } = await supabase
                 .from('solicitud')
                 .select('*')
@@ -121,7 +119,6 @@ export default function HistorialSolicitudScreen() {
             case 'solicitado': return '#FFA500'
             case 'aprobado': return '#4CAF50'
             case 'rechazado': return '#FF6B6B'
-            case 'completado': return '#2196F3'
             default: return '#666'
         }
     }
@@ -131,8 +128,6 @@ export default function HistorialSolicitudScreen() {
             case 'solicitado': return 'time-outline'
             case 'aprobado': return 'checkmark-circle'
             case 'rechazado': return 'close-circle'
-            case 'en_proceso': return 'sync-outline'
-            case 'completado': return 'checkmark-done-circle'
             default: return 'help-circle'
         }
     }
@@ -146,7 +141,7 @@ export default function HistorialSolicitudScreen() {
     }
 
     const navegarAHistorialResenias = () => {
-        navigation.navigate('HistorialReseniasScreen')
+        navigation.navigate('Historial Reseñas')
     }
 
     const renderSolicitud = ({ item }: { item: Solicitud }) => (

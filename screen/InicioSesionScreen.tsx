@@ -157,26 +157,6 @@ export default function InicioSesionScreen() {
                             <Text style={styles.loginButtonText}>Iniciar Sesión</Text>
                         </TouchableOpacity>
 
-                        {/* Divider */}
-                        <View style={styles.dividerContainer}>
-                            <View style={styles.divider} />
-                            <Text style={styles.dividerText}>o continúa con</Text>
-                            <View style={styles.divider} />
-                        </View>
-
-                        {/* Social Buttons */}
-                        <View style={styles.socialContainer}>
-                            <TouchableOpacity style={styles.socialButton}>
-                                <Ionicons name="logo-google" size={24} color="#4285F4" />
-                            </TouchableOpacity>
-                            <TouchableOpacity style={styles.socialButton}>
-                                <Ionicons name="logo-apple" size={24} color="#000" />
-                            </TouchableOpacity>
-                            <TouchableOpacity style={styles.socialButton}>
-                                <Ionicons name="logo-facebook" size={24} color="#1877F2" />
-                            </TouchableOpacity>
-                        </View>
-
                         <View style={styles.registerContainer}>
                             <Text style={styles.registerText}>¿No tienes cuenta? </Text>
                             <TouchableOpacity onPress={() => navigation.navigate('Register')}>

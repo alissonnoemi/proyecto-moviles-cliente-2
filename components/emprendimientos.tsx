@@ -20,7 +20,7 @@ export default function Emprendimientos() {
 
     useEffect(() => {
         leerEmprendimientos()
-    }, [])
+    }, [emprendimientos])
 
     async function leerEmprendimientos() {
         const { data, error } = await supabase

@@ -11,9 +11,9 @@ export default function Screen1() {
         <Text style={styles.subtitle}>Descubre ideas innovadoras</Text>
       </View>
       
-      <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
+      <View style={styles.content}>
         <Emprendimientos />
-      </ScrollView>
+      </View>
     </View>
   )
 }
