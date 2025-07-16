@@ -47,6 +47,7 @@ export const perfilStyles = StyleSheet.create({
         width: '100%',
         height: '100%',
         borderRadius: 50,
+        resizeMode: 'cover',
     },
     avatarText: {
         fontSize: 36,
@@ -75,6 +76,10 @@ export const perfilStyles = StyleSheet.create({
         borderRadius: 15,
         marginTop: 8,
     },
+    uploadButtonDisabled: {
+        backgroundColor: 'rgba(255, 255, 255, 0.1)',
+        opacity: 0.6,
+    },
     uploadButtonText: {
         color: '#fff',
         fontSize: 12,
@@ -83,10 +88,10 @@ export const perfilStyles = StyleSheet.create({
     },
     statusBadge: {
         position: 'absolute',
-        bottom: 0,
+        top: 0,
         right: 0,
         backgroundColor: '#fff',
-        borderRadius: 12,
+        borderRadius: 10,
         padding: 2,
     },
     userName: {
