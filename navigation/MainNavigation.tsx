@@ -14,6 +14,7 @@ import ReseniaScreen from '../screen/ReseniaScreen';
 import SolicitudScreen from '../screen/SolicitudScreen';
 import HistorialSolicitudScreen from '../screen/HistorialSolicitudScreen';
 import HistorialReseniasScreen from '../screen/HistorialReseniasScreen';
+import { Ionicons } from '@expo/vector-icons';
 
 const Tab = createBottomTabNavigator();
 const Drawer = createDrawerNavigator();
@@ -48,9 +49,41 @@ function MyStack() {
 
 function MyTabs() {
     return (
-        <Tab.Navigator initialRouteName="Welcome" screenOptions={{ headerShown: false }}>
-            <Tab.Screen name="Welcome" component={WelcomeScreen} />
-            <Tab.Screen name="Screen1" component={Screen1} options={{ title: 'Emprendimientos' }} />
+        <Tab.Navigator 
+            initialRouteName="Welcome" 
+            screenOptions={{ 
+                headerShown: false,
+                tabBarActiveTintColor: '#4CAF50',
+                tabBarInactiveTintColor: '#666',
+                tabBarStyle: {
+                    backgroundColor: '#fff',
+                    borderTopWidth: 1,
+                    borderTopColor: '#e0e0e0',
+                    paddingBottom: 5,
+                    paddingTop: 5,
+                }
+            }}
+        >
+            <Tab.Screen 
+                name="Welcome" 
+                component={WelcomeScreen}
+                options={{
+                    title: 'Inicio',
+                    tabBarIcon: ({ color, size }) => (
+                        <Ionicons name="home" size={size} color={color} />
+                    ),
+                }}
+            />
+            <Tab.Screen 
+                name="Screen1" 
+                component={Screen1} 
+                options={{ 
+                    title: 'Emprendimientos',
+                    tabBarIcon: ({ color, size }) => (
+                        <Ionicons name="business" size={size} color={color} />
+                    ),
+                }}
+            />
         </Tab.Navigator>
     );
 }
