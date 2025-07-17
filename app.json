@@ -20,10 +20,23 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "edgeToEdgeEnabled": true
+      "edgeToEdgeEnabled": true,
+      "package": "com.alissonnoemi.startups"
     },
     "web": {
       "favicon": "./assets/img/logo.jpeg"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "c25770a3-f842-4a1f-aace-a6defbcfa141"
+      }
+    },
+    "owner": "alissonnoemi",
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/c25770a3-f842-4a1f-aace-a6defbcfa141"
     }
   }
 }

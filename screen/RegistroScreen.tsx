@@ -77,6 +77,7 @@ export default function RegistroScreen() {
                 Alert.alert('Advertencia', 'Usuario creado pero hubo un problema al guardar el perfil');
             } else {
                 console.log('Perfil guardado exitosamente');
+                Alert.alert('Éxito', 'Usuario creado exitosamente');
             }
         } catch (error) {
             console.error('Error de red al guardar perfil:', error);
