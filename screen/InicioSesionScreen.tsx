@@ -4,6 +4,7 @@ import { useNavigation } from '@react-navigation/native'
 import { Ionicons } from '@expo/vector-icons'
 import { inicioSesionStyles as styles } from '../styles/InicioSesionScreenStyles'
 import { supabase } from '../supabase/Config'
+import * as Haptics from 'expo-haptics'
 
 export default function InicioSesionScreen() {
     const navigation = useNavigation<any>();
@@ -42,8 +43,10 @@ export default function InicioSesionScreen() {
         })
         console.log(data, error)
         if (data.user != null) {
+            Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
             navigation.navigate("Main")
         } else {
+            Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
             Alert.alert("Error", error?.message)
         }
     };
