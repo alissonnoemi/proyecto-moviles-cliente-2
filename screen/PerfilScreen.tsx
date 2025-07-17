@@ -217,49 +217,16 @@ export default function PerfilScreen() {
         }
     }
 
-    const tomarFoto = async () => {
-        try {
-            const permission = await ImagePicker.requestCameraPermissionsAsync()
-            if (!permission.granted) {
-                return Alert.alert('Permisos requeridos', 'Se requiere permiso de cámara.')
-            }
-
-            const result = await ImagePicker.launchCameraAsync({
-                allowsEditing: true,
-                aspect: [1, 1],
-                quality: 0.8
-            })
-
-            if (!result.canceled && result.assets && result.assets.length > 0) {
-                setImage(result.assets[0].uri)
-            }
-        } catch (error) {
-            console.error('Error tomando foto:', error)
-            Alert.alert('Error', 'No se pudo tomar la foto.')
-        }
-    }
-
     const mostrarOpcionesImagen = () => {
-        const opciones: Array<{
-            text: string;
-            onPress?: () => void;
-            style?: 'default' | 'cancel' | 'destructive';
-        }> = [
+        Alert.alert('Foto de perfil', 'Elige una opción', [
             { text: 'Seleccionar de galería', onPress: pickImage },
-            { text: 'Tomar foto', onPress: tomarFoto },
-            { text: 'Cancelar', style: 'cancel' }
-        ]
-
-        // Agregar opción de eliminar solo si hay imagen del servidor
-        if (image && !image.startsWith('file://')) {
-            opciones.splice(2, 0, {
+            ...(image && !image.startsWith('file://') ? [{
                 text: 'Eliminar foto actual',
                 onPress: eliminarFoto,
-                style: 'destructive'
-            })
-        }
-
-        Alert.alert('Foto de perfil', 'Elige una opción', opciones)
+                style: 'destructive' as const
+            }] : []),
+            { text: 'Cancelar', style: 'cancel' as const }
+        ])
     }
 
     const handleSaveName = async () => {
