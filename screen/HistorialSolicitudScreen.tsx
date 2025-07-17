@@ -44,7 +44,6 @@ export default function HistorialSolicitudScreen() {
                 .order('id_solicitud', { ascending: false })
 
             if (solicitudesError) {
-                console.error('Error cargando solicitudes:', solicitudesError)
                 Alert.alert('Error', 'No se pudieron cargar las solicitudes')
                 return
             }
@@ -63,7 +62,6 @@ export default function HistorialSolicitudScreen() {
                 .in('id_servicio', servicioIds)
 
             if (serviciosError) {
-                console.error('Error cargando servicios:', serviciosError)
                 Alert.alert('Error', 'No se pudieron cargar los servicios')
                 return
             }
@@ -101,7 +99,6 @@ export default function HistorialSolicitudScreen() {
             setSolicitudes(solicitudesCompletas)
 
         } catch (error) {
-            console.error('Error:', error)
             Alert.alert('Error', 'Ocurrió un error inesperado')
         } finally {
             setLoading(false)

@@ -34,22 +34,14 @@ export default function PerfilScreen() {
                     .select('*')
                     .eq('uid', user.id)
                     .single()
-
-                if (error && error.code !== 'PGRST116') {
-                    console.error('Error obteniendo datos del cliente:', error)
-                    return
-                }
-
                 if (clienteData) {
                     setCliente(clienteData)
                     if (clienteData.imagen) {
-                        // Verificar si la imagen es accesible
                         await verificarImagen(clienteData.imagen)
                     }
                 }
             }
         } catch (error) {
-            console.error('Error cargando perfil:', error)
             Alert.alert('Error', 'No se pudo cargar el perfil.')
         } finally {
             setLoadingData(false)
@@ -65,19 +57,12 @@ export default function PerfilScreen() {
                 setImage(null)
             }
         } catch (error) {
-            console.error('Error verificando imagen:', error)
             setImage(null)
         }
     }
 
     async function eliminarArchivosAnteriores() {
-        try {
             const { data: files, error } = await supabase.storage.from('imagenes').list('public')
-            if (error) {
-                console.error('Error listando archivos:', error)
-                return
-            }
-
             const filesToDelete = files
                 ?.filter(file => file.name.startsWith(`avatar_${usuario.id}`))
                 ?.map(f => `public/${f.name}`)
@@ -88,22 +73,15 @@ export default function PerfilScreen() {
                     console.error('Error eliminando archivos:', deleteError)
                 }
             }
-        } catch (error) {
-            console.error('Error eliminando archivos anteriores:', error)
-        }
-    }
 
+    }
     async function subirImagen() {
         if (!image || !usuario?.id) return Alert.alert('Error', 'Imagen o usuario inválido')
 
         setUploading(true)
         try {
             console.log('Iniciando subida de imagen...')
-            
-            // Eliminar archivos anteriores
             await eliminarArchivosAnteriores()
-
-            // Usar FormData para React Native
             const formData = new FormData()
             const fileName = `avatar_${usuario.id}_${Date.now()}.jpg`
             
@@ -114,8 +92,6 @@ export default function PerfilScreen() {
             } as any)
 
             const filePath = `public/${fileName}`
-
-            // Subir usando FormData
             const { data: uploadData, error: uploadError } = await supabase.storage
                 .from('imagenes')
                 .upload(filePath, formData, {
@@ -124,13 +100,9 @@ export default function PerfilScreen() {
                 })
 
             if (uploadError) {
-                console.error('Error de subida:', uploadError)
                 throw new Error(`Error subiendo imagen: ${uploadError.message}`)
             }
 
-            console.log('Imagen subida exitosamente:', uploadData)
-
-            // Obtener URL pública
             const { data: urlData } = supabase.storage
                 .from('imagenes')
                 .getPublicUrl(filePath)
@@ -139,35 +111,25 @@ export default function PerfilScreen() {
             if (!imageUrl) {
                 throw new Error('No se pudo obtener la URL pública')
             }
-
-            console.log('URL obtenida:', imageUrl)
-
-            // Actualizar base de datos
             const { error: dbError } = await supabase
                 .from('cliente')
                 .update({ imagen: imageUrl })
                 .eq('uid', usuario.id)
 
             if (dbError) {
-                console.error('Error actualizando BD:', dbError)
                 throw new Error(`Error actualizando perfil: ${dbError.message}`)
             }
 
-            console.log('BD actualizada exitosamente')
-
-            // Actualizar estado local
             setImage(imageUrl)
             setCliente({ ...cliente, imagen: imageUrl })
             Alert.alert('Éxito', 'Foto actualizada correctamente.')
 
         } catch (error: any) {
-            console.error('Error subiendo imagen:', error)
             Alert.alert('Error', error.message || 'No se pudo subir la imagen.')
         } finally {
             setUploading(false)
         }
     }
-
     async function eliminarFoto() {
         if (!usuario?.id) return
 
@@ -200,7 +162,6 @@ export default function PerfilScreen() {
     }
 
     const pickImage = async () => {
-        try {
             const result = await ImagePicker.launchImageLibraryAsync({
                 mediaTypes: ImagePicker.MediaTypeOptions.Images,
                 allowsEditing: true,
@@ -211,10 +172,6 @@ export default function PerfilScreen() {
             if (!result.canceled && result.assets && result.assets.length > 0) {
                 setImage(result.assets[0].uri)
             }
-        } catch (error) {
-            console.error('Error seleccionando imagen:', error)
-            Alert.alert('Error', 'No se pudo seleccionar la imagen.')
-        }
     }
 
     const mostrarOpcionesImagen = () => {
@@ -246,7 +203,6 @@ export default function PerfilScreen() {
             setEditingName(false)
             Alert.alert('Éxito', 'Nombre actualizado')
         } catch (error: any) {
-            console.error('Error actualizando nombre:', error)
             Alert.alert('Error', 'No se pudo actualizar el nombre.')
         }
     }

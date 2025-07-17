@@ -33,11 +33,10 @@ export default function HistorialReseniasScreen() {
         cargarResenias()
 
         return () => {
-            // Limpiar listener cuando el componente se desmonte
             const reseniasRef = ref(database, 'resenias')
             off(reseniasRef)
         }
-    }, [])
+    }, [resenias])
 
     const cargarResenias = () => {
         try {
@@ -47,7 +46,6 @@ export default function HistorialReseniasScreen() {
                 const data = snapshot.val()
                 if (data) {
                     const reseniasArray = Object.values(data) as Resenia[]
-                    // Ordenar por fecha (más recientes primero)
                     reseniasArray.sort((a, b) => new Date(b.fecha).getTime() - new Date(a.fecha).getTime())
                     setResenias(reseniasArray)
                 } else {
@@ -57,7 +55,6 @@ export default function HistorialReseniasScreen() {
                 setRefreshing(false)
             })
         } catch (error) {
-            console.error('Error cargando reseñas:', error)
             Alert.alert('Error', 'No se pudieron cargar las reseñas')
             setLoading(false)
             setRefreshing(false)
